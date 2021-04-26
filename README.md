@@ -9,13 +9,13 @@ Delete - Delete a to-do list item
 
 ## Example usage 
 
-python todo.py create "take the dog for a walk"
+python todo.py create "take the dog for a walk"<br />
 creates a new todo list item
 
-python todo.py list --no-complete --substring "dog"
+python todo.py list --no-complete --substring "dog"<br />
 return all the non completed items containing the word dog
 
-python todo.py delete "12843364745"
+python todo.py delete "12843364745"<br />
 deletes the todo item with the id "12843364745"
 
 ## Next steps
