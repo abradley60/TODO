@@ -18,8 +18,16 @@ return all the non completed items containing the word dog
 python todo.py delete "12843364745"<br />
 deletes the todo item with the id "12843364745"
 
-## Next steps
+## Strengths
+- Ability to create, update, edit and delete items from a to do list
+- The basic functionality required for a todo list
+- The use of typer over argparse
+
+
+## Next steps / Improvements
+- Geneally improve functionality and add some FUNK
 - Add ability to create and delete multiple items
-- Add unit testing capability
+- Add unit testing
+- Complete all function type annotations
 - Add basic UI
-- Geneally improve functionality and add 
+
