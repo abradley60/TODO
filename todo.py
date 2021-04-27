@@ -77,7 +77,7 @@ def update(id_, save: Optional[bool] = True, df: Optional[bool] = False):
             print(f"The following task has been changed to uncompleted: {desc}")
         else:
             df.loc[int(id_), "completed"] = 1
-            print(f"Congrats on completing the following task!: {desc}")
+            print(f"Congrats on completing the task: {desc}")
     except:
         print(f"The specified id is not in list: {id_}")
         print("use list-all command to see items in list")
@@ -129,7 +129,7 @@ def delete(id_, save: Optional[bool] = True, df: Optional[bool] = False):
         df = pd.read_csv("todolist.csv").set_index("id")
     try:
         df = df.drop(int(id_), axis="index")
-        print(f"deleting todo item with description: {df.loc[int(id_)]['description']}")
+        print(f"deleting todo item")
     except:
         print(f"The specified id is not in list: {id_}")
         print("use list-all to see items in list")
