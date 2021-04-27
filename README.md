@@ -7,7 +7,7 @@ Toggle - Update the DESCRIPTION of a to-do item.<br />
 Update - Update the STATUS of a to-do item.<br />
 Delete - Delete a to-do list item. <br />
 
-## Example usage 
+## Example usage / basic docs
 
 python todo.py create "take the dog for a walk"<br />
 creates a new todo list item
@@ -17,6 +17,9 @@ return all the non completed items containing the word dog
 
 python todo.py delete "12843364745"<br />
 deletes the todo item with the id "12843364745"
+
+python todo.py toggle "12843364745" "take the dog for a run"
+updates the description of todo item with id "12843364745"
 
 ## Strengths
 - Ability to create, update, edit and delete items from a to do list
