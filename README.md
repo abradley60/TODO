@@ -30,4 +30,5 @@ deletes the todo item with the id "12843364745"
 - Add unit testing
 - Complete all function type annotations
 - Add basic UI
+- Edit / delete items based on description rather than just id
 
