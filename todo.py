@@ -8,27 +8,36 @@ app = typer.Typer()
 
 
 @app.command()
-def create(description):
+def create(description, save: Optional[bool] = True, df: Optional[bool] = False):
     """creates an item in the todo list
 
     Args:
         description ([str]): description of the todo item
 
     """
-
-    df = pd.read_csv("todolist.csv")  # .set_index("id")
+    if not isinstance(df, pd.DataFrame):
+        df = pd.read_csv("todolist.csv")  # .set_index("id")
+    else:
+        df = pd.DataFrame()
+    id_ = int(str(time.time()).replace(".", ""))
     todo_item = {
-        "id": str(time.time()).replace(".", ""),
+        "id": id_,
         "description": description,
         "completed": False,
     }
     df = df.append(todo_item, ignore_index=True).set_index("id")
-    df.to_csv("todolist.csv")
-    return
+    if save:
+        df.to_csv("todolist.csv")
+    return id_, df
 
 
 @app.command()
-def list(complete: Optional[bool] = False, no_complete: Optional[bool] = False, substring: Optional[str] = False):
+def list(
+    complete: Optional[bool] = False,
+    no_complete: Optional[bool] = False,
+    substring: Optional[str] = False,
+    df: Optional[bool] = False,
+):
     """print the todo list items
 
     Args:
@@ -36,7 +45,8 @@ def list(complete: Optional[bool] = False, no_complete: Optional[bool] = False, 
         no_complete (Optional[bool], optional): list only non-complete items. Defaults to False.
         substring (Optional[str], optional): list only items containing string. Defaults to False.
     """
-    df = pd.read_csv("todolist.csv").set_index("id")
+    if not isinstance(df, pd.DataFrame):
+        df = pd.read_csv("todolist.csv").set_index("id")
     if complete:
         df = df[df["completed"] == True]
     if no_complete:
@@ -50,7 +60,7 @@ def list(complete: Optional[bool] = False, no_complete: Optional[bool] = False, 
 
 
 @app.command()
-def update(id_):
+def update(id_, save: Optional[bool] = True, df: Optional[bool] = False):
     """update the status of a todo item specified by id. If item not complete,
         it will be changed to complete. If item complete, it will be changed to 
         not complete
@@ -58,7 +68,8 @@ def update(id_):
     Args:
         id_ ([str]): id of the todo list item to upate
     """
-    df = pd.read_csv("todolist.csv").set_index("id")
+    if not isinstance(df, pd.DataFrame):
+        df = pd.read_csv("todolist.csv").set_index("id")
     try:
         desc = df.loc[int(id_)]["description"]
         if df.loc[int(id_)]["completed"]:
@@ -70,32 +81,61 @@ def update(id_):
     except:
         print(f"The specified id is not in list: {id_}")
         print("use list-all command to see items in list")
-    df.to_csv("todolist.csv")
+    if save:
+        df.to_csv("todolist.csv")
+    return df
 
 
 @app.command()
-def toggle(id_, new_desc):
-    df = pd.read_csv("todolist.csv").set_index("id")
+def toggle(id_, new_desc, save: Optional[bool] = True, df: Optional[bool] = False):
+    """Update description of todo item
+
+    Args:
+        id_ (str): task id
+        new_desc (str): task description
+        save (Optional[bool], optional): save the new list. Defaults to True.
+        df (Optional[bool], optional): pass in df, else load existing. Defaults to False.
+
+    Returns:
+        [type]: [description]
+    """
+    if not isinstance(df, pd.DataFrame):
+        df = pd.read_csv("todolist.csv").set_index("id")
     try:
         old_desc = df.loc[int(id_)]["description"]
-        df.loc[int(id_), "description"] = "hello"
+        df.loc[int(id_), "description"] = new_desc
         print(f"old description: {old_desc}\tnew description: {new_desc}")
     except:
         print(f"The specified id is not in list: {id_}")
         print("use list-all command to see items in list")
-    df.to_csv("todolist.csv")
+    if save:
+        df.to_csv("todolist.csv")
+    return df
 
 
 @app.command()
-def delete(id_):
-    df = pd.read_csv("todolist.csv").set_index("id")
+def delete(id_, save: Optional[bool] = True, df: Optional[bool] = False):
+    """Delete task by ID
+
+    Args:
+        id_ (str): task id.
+        save (Optional[bool], optional): save the new list. Defaults to True.
+        df (Optional[bool], optional): pass in df, else load existing. Defaults to False.
+
+    Returns:
+        [type]: [description]
+    """
+    if not isinstance(df, pd.DataFrame):
+        df = pd.read_csv("todolist.csv").set_index("id")
     try:
         df = df.drop(int(id_), axis="index")
         print(f"deleting todo item with description: {df.loc[int(id_)]['description']}")
     except:
         print(f"The specified id is not in list: {id_}")
         print("use list-all to see items in list")
-    df.to_csv("todolist.csv")
+    if save:
+        df.to_csv("todolist.csv")
+    return df
 
 
 if __name__ == "__main__":
