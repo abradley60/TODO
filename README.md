@@ -30,7 +30,7 @@ updates the description of todo item with id "12843364745"
 ## Next steps / Improvements
 - Geneally improve functionality and add some FUNK
 - Add ability to create and delete multiple items
-- Add unit testing
+- Make use of CLIrunner() for unit tests
 - Complete all function type annotations
 - Add basic UI
 - Edit / delete items based on description rather than just id
